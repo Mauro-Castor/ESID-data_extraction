@@ -2,13 +2,12 @@ from re import A
 import sys, requests, json, logging, os, pprint, random, time
 import pandas as pd
 
-#os.chdir ('C:\Users\MauricioAguirreMoral\Desktop\Mauricio\Visual_Studio')
 logging.captureWarnings(True)
 
 token=(open('token').read())
 token=(token.strip())
 domain = "data"
-study_id='B1D40E35-55A9-A967-F9D7-48FE0CA6F2A9'
+study_id='study_id'
 
 api_call_headers = {'Authorization': 'Bearer ' + str(token)}
 
@@ -21,8 +20,8 @@ def get_new_token():
     if str(x) !='<Response [200]>':
 
         auth_server_url = "https://"+domain+".castoredc.com/oauth/token"
-        client_id = '79EBCE1C-2622-4F78-8414-2828581055D8'
-        client_secret = '0079adaa3a1b1dc19a104ae799578caf'
+        client_id = 'client_id'
+        client_secret = 'client_secret'
 
         token_req_payload = {'grant_type': 'client_credentials'}
 
@@ -162,9 +161,5 @@ visits_s = visits_structure(api_call_headers)
 result = pd.merge(field_result,field_list, on = 'field_id' ,how='left')
 result = pd.merge(result,forms_s, left_on = 'parent_id', right_on = 'form_id' ,how='left')
 result = pd.merge(result,visits_s, left_on = 'visits', right_on = 'visit_id' ,how='left')
-# print(field_result)
-# print(field_list)
-# print(forms_s)
-# print(visits_s)
 print(result)
 result.to_csv('result.csv')
